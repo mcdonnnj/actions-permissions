@@ -81,8 +81,8 @@ if [ "$RUNNER_OS" = "macOS" ]; then
           --showhost \
           --allow-hosts '$filter' \
           -q \
-          `#--set termlog_verbosity=debug` \
-          `#--set proxy_debug=true` \
+          --set termlog_verbosity=debug \
+          --set proxy_debug=true \
           -s /Users/mitmproxyuser/mitm_plugin.py \
           --set output='/Users/mitmproxyuser/out.txt' \
           --set token='$INPUT_TOKEN' \
@@ -142,8 +142,8 @@ elif [ "$RUNNER_OS" = "Linux" ]; then
           --showhost \
           --allow-hosts '$filter' \
           -q \
-          `#--set termlog_verbosity=debug` \
-          `#--set proxy_debug=true` \
+          --set termlog_verbosity=debug \
+          --set proxy_debug=true \
           -s /home/mitmproxyuser/mitm_plugin.py \
           --set output='/home/mitmproxyuser/out.txt' \
           --set token='$INPUT_TOKEN' \
