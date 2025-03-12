@@ -1,13 +1,14 @@
+# Standard Python Libraries
 import base64
-import requests
+from enum import Enum
 import socket
 import sys
 import traceback
-from enum import Enum
-from urllib.parse import urlsplit
-from urllib.parse import urlparse
-from urllib.parse import parse_qs
+from urllib.parse import parse_qs, urlparse, urlsplit
+
+# Third-Party Libraries
 from mitmproxy import ctx
+import requests
 
 
 class HTTP(Enum):
