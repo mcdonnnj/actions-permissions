@@ -994,7 +994,7 @@ class GHActionsProxy:
             for p in permissions:
                 if not first:
                     f.write(", ")
-                f.write('{"%s": "%s"}' % (p[0], p[1]))
+                f.write('{{"{}": "{}"}}'.format(p[0], p[1]))
                 first = False
 
             f.write("]}\n")
