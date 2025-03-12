@@ -47,6 +47,9 @@ class GHActionsProxy:
             return False
 
     def __init__(self):
+        self.debug_file = None
+        self.output_file = None
+
         self.ip_map = {}
         self.dns_map = {}
         self.repo_map = {}
@@ -862,8 +865,10 @@ class GHActionsProxy:
 
     def log_debug(self, msg):
         if ctx.options.debug:
-            with open("debug.log", "a+") as f:
-                f.write("%s\n" % msg)
+            if self.debug_file is None:
+                self.debug_file = open("debug.log", "a+")
+
+            self.debug_file.write(f"{msg}\n")
 
     def log_error(self, msg):
         with open("error.log", "a+") as f:
@@ -987,20 +992,28 @@ class GHActionsProxy:
             self.log_error(traceback.format_exc())
 
     def write_json(self, permissions, method, host, path):
-        with open(ctx.options.output, "a+") as f:
-            f.write("{ ")
-            f.write('"method": "%s"' % method)
-            f.write(', "host": "%s"' % host)
-            f.write(', "path": "%s"' % path)
-            f.write(', "permissions": [')
-            first = True
-            for p in permissions:
-                if not first:
-                    f.write(", ")
-                f.write('{{"{}": "{}"}}'.format(p[0], p[1]))
-                first = False
+        if self.output_file is None:
+            self.output_file = open(ctx.options.output, "a+")
 
-            f.write("]}\n")
+        self.output_file.write("{ ")
+        self.output_file.write('"method": "%s"' % method)
+        self.output_file.write(', "host": "%s"' % host)
+        self.output_file.write(', "path": "%s"' % path)
+        self.output_file.write(', "permissions": [')
+        first = True
+        for p in permissions:
+            if not first:
+                self.output_file.write(", ")
+            self.output_file.write('{{"{}": "{}"}}'.format(p[0], p[1]))
+            first = False
+
+        self.output_file.write("]}\n")
+
+    def done():
+        if self.debug_file is not None:
+            self.debug_file.close()
+        if self.output_file is not None:
+            self.output_file.close()
 
 
 addons = [GHActionsProxy()]
