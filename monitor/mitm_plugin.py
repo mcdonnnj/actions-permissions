@@ -662,7 +662,7 @@ class GHActionsProxy:
                                 return [("issues", permissions[1])]
                         else:
                             return [("unknown", "unknown")]
-                elif "issues,pull-requests" == permissions[0]:
+                elif permissions[0] == "issues,pull-requests":
                     # It is impossible to distinguish between issues and pull requests
                     # The safest bet is to return both
                     # Also, assuming the workflow runs with full permissions the request would return both issues and pull requests anyway
