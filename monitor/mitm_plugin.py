@@ -877,8 +877,8 @@ class GHActionsProxy:
     def configure(self, updates):
         self.log_debug("Proxy debug messages enabled")
 
-        with open(ctx.options.output, "a+") as f:
-            pass  # create empty file
+        # create empty file
+        self.output_file = open(ctx.options.output, "a+")
 
         if not bool(ctx.options.hosts):
             print("error: Hosts argument is empty")
