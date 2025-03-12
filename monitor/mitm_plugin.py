@@ -917,6 +917,7 @@ class GHActionsProxy:
 
     def requestheaders(self, flow):
         try:
+            self.log_debug(f"host={flow.request.host},port={flow.request.port}")
             url_parts = urlsplit(flow.request.url)
             parsed_url = urlparse(flow.request.url)
             hostname = url_parts.hostname.lower()
