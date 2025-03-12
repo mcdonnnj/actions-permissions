@@ -992,6 +992,7 @@ class GHActionsProxy:
             self.log_error(traceback.format_exc())
 
     def write_json(self, permissions, method, host, path):
+        self.log_debug(f"Writing the followingto output: {method}, {host}, {path}, {permissions}")
         if self.output_file is None:
             self.output_file = open(ctx.options.output, "a+")
 
