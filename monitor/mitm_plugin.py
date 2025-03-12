@@ -928,7 +928,7 @@ class GHActionsProxy:
             if host:
                 hostname = host.lower().strip()
             else:
-                if not hostname in self.dns_map and not hostname in self.ip_map:
+                if hostname not in self.dns_map and hostname not in self.ip_map:
                     # we hit a load balancer, let's try to refresh the known ips
                     self.rebuild_cache()
 
