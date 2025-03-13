@@ -964,12 +964,15 @@ class GHActionsProxy:
                                 flow.request.method,
                                 parse_qs(parsed_url.query),
                             )
+                            self.log_debug(f"permissions={permissions}")
                             self.write_json(
                                 permissions,
                                 flow.request.method,
                                 hostname,
                                 url_parts.path,
                             )
+                        else:
+                            self.log_debug(f"Skipping permissions discovery for {hostname}")
                     elif self.id_token_request_token and self.contains_token(
                         v, self.id_token_request_token
                     ):
