@@ -989,6 +989,10 @@ class GHActionsProxy:
                                 hostname,
                                 url_parts.path,
                             )
+                        else:
+                            self.log_debug(f"Skipping JSON write for {hostname} ({flow.request.method}) with {url_parts.path.lower()}")
+                    else:
+                        self.log_debug(f"No processing matches for auth header bearing request to {hostname}")
 
         except Exception as e:
             print(traceback.format_exc())
