@@ -1016,6 +1016,7 @@ class GHActionsProxy:
             first = False
 
         self.output_file.write("]}\n")
+        self.output_file.flush()
 
     def done():
         if self.debug_file is not None:
