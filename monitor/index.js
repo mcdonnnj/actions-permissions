@@ -2,6 +2,7 @@ const core = require('@actions/core');
 const {DefaultArtifactClient} = require('@actions/artifact')
 const crypto = require("crypto");
 const fs = require('fs');
+const readline = require('readline')
 
 async function run() {
   try {
@@ -47,8 +48,16 @@ async function run() {
 
       const debugLog = `${rootDir}/debug.log`;
       if (fs.existsSync(debugLog)) {
-        // using core.info instead of core.debug to print even if the runner itself doesn't run in debug mode
-        core.info(fs.readFileSync(debugLog, 'utf8'));
+        const readInterface = readline.createInterface({
+          input: fs.createReadStream(debugLog, {encoding:'UTF-8'}),
+          output: process.stdout,
+          console: false
+        })
+
+        for await (const line of readInterface) {
+          // using core.info instead of core.debug to print even if the runner itself doesn't run in debug mode
+          core.info(line);
+        }
       }
 
       const data = fs.readFileSync(`${rootDir}/out.txt`, 'utf8');
