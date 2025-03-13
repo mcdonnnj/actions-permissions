@@ -212,7 +212,7 @@ class GHActionsProxy:
                 # We use both types as keys in the same dictionary
                 # It prevents from unlikely collision if the next path segment name was the same as the HTTP method type
                 node[self.methods_map[entry[0]]] = (type, entry[3])
-        except Exception as e:
+        except Exception:
             print(traceback.format_exc())
             self.log_error(traceback.format_exc())
             sys.exit(1)
@@ -464,7 +464,7 @@ class GHActionsProxy:
     def configure(self, updates):
         self.log_debug('Proxy debug messages enabled')
 
-        with open(ctx.options.output, 'a+') as f:
+        with open(ctx.options.output, 'a+'):
             pass  # create empty file
 
         if not bool(ctx.options.hosts):
@@ -544,7 +544,7 @@ class GHActionsProxy:
                         if self.id_token_request_url and flow.request.method == 'GET' and hostname == self.id_token_request_url.hostname.lower() and url_parts.path.lower() == self.id_token_request_url.path.lower():
                             self.write_json([('id-token', 'write')], flow.request.method, hostname, url_parts.path)
 
-        except Exception as e:
+        except Exception:
             print(traceback.format_exc())
             self.log_error(traceback.format_exc())
 
