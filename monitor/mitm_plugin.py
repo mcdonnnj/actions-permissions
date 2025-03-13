@@ -878,7 +878,9 @@ class GHActionsProxy:
         self.log_debug("Proxy debug messages enabled")
 
         # create empty file
-        self.output_file = open(ctx.options.output, "a+")
+        # self.output_file = open(ctx.options.output, "a+")
+        with open(ctx.options.output, "a+"):
+            pass
 
         if not bool(ctx.options.hosts):
             print("error: Hosts argument is empty")
@@ -1000,23 +1002,24 @@ class GHActionsProxy:
 
     def write_json(self, permissions, method, host, path):
         self.log_debug(f"Writing the followingto output: {method}, {host}, {path}, {permissions}")
-        if self.output_file is None:
-            self.output_file = open(ctx.options.output, "a+")
+        # if self.output_file is None:
+        #     self.output_file = open(ctx.options.output, "a+")
 
-        self.output_file.write("{ ")
-        self.output_file.write('"method": "%s"' % method)
-        self.output_file.write(', "host": "%s"' % host)
-        self.output_file.write(', "path": "%s"' % path)
-        self.output_file.write(', "permissions": [')
-        first = True
-        for p in permissions:
-            if not first:
-                self.output_file.write(", ")
-            self.output_file.write('{{"{}": "{}"}}'.format(p[0], p[1]))
-            first = False
+        with open(ctx.options.output, "a+") as f:
+            f.write("{ ")
+            f.write('"method": "%s"' % method)
+            f.write(', "host": "%s"' % host)
+            f.write(', "path": "%s"' % path)
+            f.write(', "permissions": [')
+            first = True
+            for p in permissions:
+                if not first:
+                    f.write(", ")
+                f.write('{{"{}": "{}"}}'.format(p[0], p[1]))
+                first = False
 
-        self.output_file.write("]}\n")
-        self.output_file.flush()
+            f.write("]}\n")
+        # self.output_file.flush()
 
     def done():
         if self.debug_file is not None:
