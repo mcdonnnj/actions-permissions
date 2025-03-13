@@ -529,8 +529,7 @@ class GHActionsProxy:
                     if url_parts.hostname in self.ip_map:
                         hostname = self.ip_map[url_parts.hostname]
 
-            self.log_debug('%s %s' % (
-                flow.request.method, flow.request.url.replace(url_parts.hostname, hostname)))
+            self.log_debug(f'{flow.request.method} {flow.request.url.replace(url_parts.hostname, hostname)}')
 
             # log a JSON like (no comma separators between objects and no wrapping array) list of objects, that will be post-processed later
             for k, v in flow.request.headers.items():
@@ -552,15 +551,15 @@ class GHActionsProxy:
     def write_json(self, permissions, method, host, path):
         with open(ctx.options.output, 'a+') as f:
             f.write('{ ')
-            f.write('"method": "%s"' % method)
-            f.write(', "host": "%s"' % host)
-            f.write(', "path": "%s"' % path)
+            f.write(f'"method": "{method}"')
+            f.write(f', "host": "{host}"')
+            f.write(f', "path": "{path}"')
             f.write(', "permissions": [')
             first = True
             for p in permissions:
                 if not first:
                     f.write(', ')
-                f.write('{"%s": "%s"}' % (p[0], p[1]))
+                f.write(f'{{"{p[0]}": "{p[1]}"}}')
                 first = False
 
             f.write(']}\n')
