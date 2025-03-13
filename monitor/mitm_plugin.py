@@ -38,7 +38,7 @@ class GHActionsProxy:
         url = f'{ctx.options.GITHUB_API_URL}/{repo_path}/{repo}'
         response = requests.get(url, headers={'Authorization': 'Bearer %s' % ctx.options.token})
         if response.status_code == 200:
-            self.repo_map[repo] = response.json()['private'] == False
+            self.repo_map[repo] = response.json()['private'] is False
             return self.repo_map[repo]
         else:
             return False
