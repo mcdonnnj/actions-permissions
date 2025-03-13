@@ -390,11 +390,12 @@ class GHActionsProxy:
 
         return [('unknown', 'unknown')]
 
-    def same_repository(self, id):
-        return ctx.options.GITHUB_REPOSITORY_ID.upper() == id.upper()
-
-    def same_repository(self, owner, repo):
-        return ctx.options.GITHUB_REPOSITORY.upper() == f'{owner}/{repo}'.upper()
+    def same_repository(self, *args):
+        if len(args) == 1:
+            return ctx.options.GITHUB_REPOSITORY_ID.upper() == args[0].upper()
+        if len(args) == 2:
+            return ctx.options.GITHUB_REPOSITORY.upper() == "/".join(args).upper()
+        return False
 
     def load(self, loader):
         loader.add_option(
