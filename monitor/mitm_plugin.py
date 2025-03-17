@@ -870,12 +870,14 @@ class GHActionsProxy:
                 self.debug_file = open("debug.log", "a+")
 
             self.debug_file.write(f"{msg}\n")
+            self.debug_file.flush()
 
     def log_error(self, msg):
         if self.error_file is None:
             self.error_file = open("error.log", "a+")
 
         self.error_file.write("%s\n" % msg)
+        self.error_file.flush()
 
     def configure(self, updates):
         self.log_debug("Proxy debug messages enabled")
