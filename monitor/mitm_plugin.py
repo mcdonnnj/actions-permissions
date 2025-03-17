@@ -48,6 +48,7 @@ class GHActionsProxy:
 
     def __init__(self):
         self.debug_file = None
+        self.error_file = None
         self.output_file = None
 
         self.ip_map = {}
@@ -871,8 +872,10 @@ class GHActionsProxy:
             self.debug_file.write(f"{msg}\n")
 
     def log_error(self, msg):
-        with open("error.log", "a+") as f:
-            f.write("%s\n" % msg)
+        if self.error_file is None:
+            self.error_file = open("error.log", "a+")
+
+        self.error_file.write("%s\n" % msg)
 
     def configure(self, updates):
         self.log_debug("Proxy debug messages enabled")
@@ -1020,6 +1023,8 @@ class GHActionsProxy:
     def done(self):
         if self.debug_file is not None:
             self.debug_file.close()
+        if self.error_file is not None:
+            self.error_file.close()
         if self.output_file is not None:
             self.output_file.close()
 
