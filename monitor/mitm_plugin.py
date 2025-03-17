@@ -64,7 +64,7 @@ class GHActionsProxy:
         }
 
         # a map of tricky permissions, that do not fall into a pattern of (GET|POST|etc) /repos/{owner}/{repo}/{what}/{id} -> {what, permission}
-        map = {
+        permission_map = {
             ("GET", "/repos/{owner}/{repo}/codeowners/errors", "contents", "read"),
             ("GET", "/repositories/{id}/codeowners/errors", "contents", "read"),
             (
@@ -529,7 +529,7 @@ class GHActionsProxy:
         try:
             # build an optimized tree for faster lookup from the map
             self.rest_api_map = {}
-            for entry in map:
+            for entry in permission_map:
                 path_segments = entry[1].split("/")
                 node = self.rest_api_map
                 for segment in path_segments[1:]:
