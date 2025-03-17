@@ -1,6 +1,7 @@
 # Standard Python Libraries
 import base64
 from enum import Enum
+import json
 import socket
 import sys
 import traceback
@@ -1008,19 +1009,29 @@ class GHActionsProxy:
         if self.output_file is None:
             self.output_file = open(ctx.options.output, "a+")
 
-        self.output_file.write("{ ")
-        self.output_file.write('"method": "%s"' % method)
-        self.output_file.write(', "host": "%s"' % host)
-        self.output_file.write(', "path": "%s"' % path)
-        self.output_file.write(', "permissions": [')
-        first = True
-        for p in permissions:
-            if not first:
-                self.output_file.write(", ")
-            self.output_file.write('{{"{}": "{}"}}'.format(p[0], p[1]))
-            first = False
+        permissions_output = {
+            "method": method,
+            "host": host,
+            "path": path,
+            "permissions": [
+                {p[0]: p[1]} for p in permissions
+                ]
+        }
 
-        self.output_file.write("]}\n")
+        # self.output_file.write("{ ")
+        # self.output_file.write('"method": "%s"' % method)
+        # self.output_file.write(', "host": "%s"' % host)
+        # self.output_file.write(', "path": "%s"' % path)
+        # self.output_file.write(', "permissions": [')
+        # first = True
+        # for p in permissions:
+        #     if not first:
+        #         self.output_file.write(", ")
+        #     self.output_file.write('{{"{}": "{}"}}'.format(p[0], p[1]))
+        #     first = False
+
+        # self.output_file.write("]}\n")
+        print(json.dumps(permissions_output), file=self.output_file)
         self.output_file.flush()
 
     def done(self):
