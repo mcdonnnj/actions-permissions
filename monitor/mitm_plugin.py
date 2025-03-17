@@ -1021,12 +1021,15 @@ class GHActionsProxy:
         self.output_file.write("]}\n")
 
     def done(self):
-        if self.debug_file is not None:
-            self.debug_file.close()
         if self.error_file is not None:
+            self.log_debug("Closing the error file.")
             self.error_file.close()
         if self.output_file is not None:
+            self.log_debug("Closing the output file.")
             self.output_file.close()
+        if self.debug_file is not None:
+            self.log_debug("Closing the debug file.")
+            self.debug_file.close()
 
 
 addons = [GHActionsProxy()]
